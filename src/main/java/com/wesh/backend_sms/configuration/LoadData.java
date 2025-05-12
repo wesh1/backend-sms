@@ -14,8 +14,8 @@ public class LoadData {
     CommandLineRunner initDatabase(UserRepository repository) {
         return args -> {
             repository.save(new User("William", "william@guatemala502.com", "MyPass1234"));
-            repository.save(new User("Carlos", "carlos@guatemala502.com", "Walk1234"));
-            repository.save(new User("Jessica", "jessica@exguatemala502ample.com", "Sing1234"));
+            repository.save(new User("Samsung", "samsung@guatemala502.com", "Walk1234"));
+            repository.save(new User("Pixel", "Pixel@guatemala502.com", "Sing1234"));
         };
     }
     
