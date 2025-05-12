@@ -1,31 +1,34 @@
-# Read Me First
-The following was discovered as part of building this project:
+## Explanation
 
-* The original package name 'com.wesh.backend-sms' is invalid and this project uses 'com.wesh.backend_sms' instead.
+There will be 2 endpoints: one for generating a JWT, this will be use for security purposes, it is required when sending a message.
 
-# Getting Started
+The other endpoint will be the one for sending messages. If messages are longer than 160 characters they will be divided into groups of 160 characters and it will be send individually.
 
-### Reference Documentation
-For further reference, please consider the following sections:
+Both servises will be consumed by the front-end.
 
-* [Official Apache Maven documentation](https://maven.apache.org/guides/index.html)
-* [Spring Boot Maven Plugin Reference Guide](https://docs.spring.io/spring-boot/3.4.5/maven-plugin)
-* [Create an OCI image](https://docs.spring.io/spring-boot/3.4.5/maven-plugin/build-image.html)
-* [Spring Web](https://docs.spring.io/spring-boot/3.4.5/reference/web/servlet.html)
-* [Spring Data JPA](https://docs.spring.io/spring-boot/3.4.5/reference/data/sql.html#data.sql.jpa-and-spring-data)
-
-### Guides
-The following guides illustrate how to use some features concretely:
-
-* [Building a RESTful Web Service](https://spring.io/guides/gs/rest-service/)
-* [Serving Web Content with Spring MVC](https://spring.io/guides/gs/serving-web-content/)
-* [Building REST services with Spring](https://spring.io/guides/tutorials/rest/)
-* [Accessing Data with JPA](https://spring.io/guides/gs/accessing-data-jpa/)
-
-### Maven Parent overrides
-
-Due to Maven's design, elements are inherited from the parent POM to the project POM.
-While most of the inheritance is fine, it also inherits unwanted elements like `<license>` and `<developers>` from the parent.
-To prevent this, the project POM contains empty overrides for these elements.
-If you manually switch to a different parent and actually want the inheritance, you need to remove those overrides.
-
+## To run the project
+```
+mvn spring-boot:run
+```
+## Endpoint to get a JWT
+/api/auth/login
+```
+curl --location 'http://localhost:8080/api/auth/login' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "email": "william@guatemala502.com",
+    "password": "MyPass1234"
+}'
+```
+## Endpoint to send SMS
+/api/protected/send-sms
+```
+curl --location 'http://localhost:8080/api/protected/send-sms' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ3aWxsaWFtQGd1YXRlbWFsYTUwMi5jb20iLCJpYXQiOjE3NDcwMjM4MjksImV4cCI6MTc0NzAyNzQyOX0.upO8RcNJ2AQqwyrHjdv_d90DTKAMOWeE-aV3cM0Vnbo' \
+--header 'Content-Type: application/json' \
+--data '{
+    "message": "The Mayan culture, a Mesoamerican civilization, flourished for centuries in areas now encompassing Guatemala, Mexico, Belize, Honduras, and El Salvador. Known for their sophisticated writing system, advanced mathematics, and complex calendar, the Maya left behind a legacy of impressive architecture, art, and religious beliefs. They also developed innovative agricultural practices, including slash-and-burn methods and terracing.",
+    "countryCode": "+502",
+    "phone": "30303030"
+}'
+```
